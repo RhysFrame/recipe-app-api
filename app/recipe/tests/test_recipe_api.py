@@ -14,7 +14,7 @@ from core.models import Recipe
 
 from recipe.serializers import (
     RecipeSerializer,
-    RecipeDetailSerializer
+    RecipeDetailSerializer,
 )
 
 RECIPES_URL = reverse('recipe:recipe-list')
@@ -39,7 +39,7 @@ def create_recipe(user, **params):
     return recipe
 
 class PublicRecipeAPITests(TestCase):
-    """Test unauthentocated API requests."""
+    """Test unauthenticated API requests."""
     def setUp(self):
         self.client = APIClient()
 
@@ -56,7 +56,7 @@ class PrivateRecipeApiTests(TestCase):
         self.client = APIClient()
         self.user = get_user_model().objects.create_user(
             'user@example.com',
-            'testpass123'
+            'testpass123',
         )
         self.client.force_authenticate(self.user)
 
@@ -73,7 +73,7 @@ class PrivateRecipeApiTests(TestCase):
         self.assertEqual(res.data, serializer.data)
 
     def test_recipe_list_limited_to_user(self):
-        """Test list of recipes is limited to authenticeated user."""
+        """Test list of recipes is limited to authenticated user."""
         other_user = get_user_model().objects.create_user(
             'other@example.com',
             'password123',
@@ -89,10 +89,10 @@ class PrivateRecipeApiTests(TestCase):
         self.assertEqual(res.data, serializer.data)
 
     def test_get_recipe_detail(self):
-        """Test get recipe dertail."""
+        """Test get recipe detail."""
         recipe = create_recipe(user=self.user)
 
-        url = detail_url(recipe.url)
+        url = detail_url(recipe.id)
         res = self.client.get(url)
 
         serializer = RecipeDetailSerializer(recipe)
