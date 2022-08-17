@@ -4,7 +4,7 @@ Tests for recipe APIs.
 from decimal import Decimal
 import tempfile
 import os
-from tkinter import image_names
+
 
 from PIL import Image
 
@@ -382,7 +382,7 @@ class ImageUploadTests(TestCase):
             'password123',
         )
         self.client.force_authenticate(self.user)
-        self.recipse = create_recipe(user=self.user)
+        self.recipe = create_recipe(user=self.user)
 
     def tearDown(self):
         self.recipe.image.delete()
@@ -401,3 +401,11 @@ class ImageUploadTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertIn('image', res.data)
         self.assertTrue(os.path.exists(self.recipe.image.path))
+
+    def test_upload_image_bad_request(self):
+        """Test uploading invalid image."""
+        url = image_upload_url(self.recipe.id)
+        payload = {'image': 'noanimage'}
+        res = self.client.post(url, payload, format='multipart')
+
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
