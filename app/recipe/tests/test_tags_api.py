@@ -12,7 +12,7 @@ from rest_framework.test import APIClient
 
 from core.models import (
     Tag,
-    Recipe
+    Recipe,
 )
 
 from recipe.serializers import TagSerializer
@@ -30,6 +30,7 @@ def create_user(email='user@example.com', password='testpass123'):
     """Create and return a user."""
     return get_user_model().objects.create_user(email=email, password=password)
 
+
 class PublicTagsApiTests(TestCase):
     """Test unauthenticated API requests."""
 
@@ -41,6 +42,7 @@ class PublicTagsApiTests(TestCase):
         res = self.client.get(TAGS_URL)
 
         self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
+
 
 class PrivateTagsApiTests(TestCase):
     """Test authenticated API requests."""
@@ -82,7 +84,7 @@ class PrivateTagsApiTests(TestCase):
         payload = {'name': 'Dessert'}
 
         url = detail_url(tag.id)
-        res = self.client.patch(url,payload)
+        res = self.client.patch(url, payload)
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         tag.refresh_from_db()
@@ -104,7 +106,7 @@ class PrivateTagsApiTests(TestCase):
         tag1 = Tag.objects.create(user=self.user, name='Breakfast')
         tag2 = Tag.objects.create(user=self.user, name='Lunch')
         recipe = Recipe.objects.create(
-            title='Green Eggs On Toast',
+            title='Green Eggs on Toast',
             time_minutes=10,
             price=Decimal('2.50'),
             user=self.user,
@@ -125,7 +127,7 @@ class PrivateTagsApiTests(TestCase):
         recipe1 = Recipe.objects.create(
             title='Pancakes',
             time_minutes=5,
-            price=Decimal('2.00'),
+            price=Decimal('5.00'),
             user=self.user,
         )
         recipe2 = Recipe.objects.create(

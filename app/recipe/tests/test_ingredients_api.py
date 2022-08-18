@@ -20,9 +20,11 @@ from recipe.serializers import IngredientSerializer
 
 INGREDIENTS_URL = reverse('recipe:ingredient-list')
 
+
 def detail_url(ingredient_id):
     """Create and return an ingredient detail URL."""
     return reverse('recipe:ingredient-detail', args=[ingredient_id])
+
 
 def create_user(email='user@example.com', password='testpass123'):
     """Create and return user."""
@@ -40,6 +42,7 @@ class PublicIngredientsApiTests(TestCase):
         res = self.client.get(INGREDIENTS_URL)
 
         self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
+
 
 class PrivateIngredientsApiTests(TestCase):
     """Test authenticated API requests."""
@@ -98,11 +101,11 @@ class PrivateIngredientsApiTests(TestCase):
         self.assertFalse(ingredients.exists())
 
     def test_filter_ingredients_assigned_to_recipes(self):
-        """Test listing ingredients by those assigned to recipes."""
+        """Test listing ingedients to those assigned to recipes."""
         in1 = Ingredient.objects.create(user=self.user, name='Apples')
         in2 = Ingredient.objects.create(user=self.user, name='Turkey')
         recipe = Recipe.objects.create(
-            title='Apple Crimble',
+            title='Apple Crumble',
             time_minutes=5,
             price=Decimal('4.50'),
             user=self.user,
@@ -134,9 +137,7 @@ class PrivateIngredientsApiTests(TestCase):
         )
         recipe1.ingredients.add(ing)
         recipe2.ingredients.add(ing)
-        s1 = IngredientSerializer(ing)
 
         res = self.client.get(INGREDIENTS_URL, {'assigned_only': 1})
 
         self.assertEqual(len(res.data), 1)
-        self.assertIn(s1.data, res.data)

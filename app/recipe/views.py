@@ -1,13 +1,13 @@
 """
-Views for the recipe APIs.
+Views for the recipe APIs
 """
-from tokenize import Token
 from drf_spectacular.utils import (
     extend_schema_view,
     extend_schema,
     OpenApiParameter,
     OpenApiTypes,
 )
+
 from rest_framework import (
     viewsets,
     mixins,
@@ -32,17 +32,16 @@ from recipe import serializers
             OpenApiParameter(
                 'tags',
                 OpenApiTypes.STR,
-                description='Comma separated list of IDs to filter',
+                description='Comma separated list of tag IDs to filter',
             ),
             OpenApiParameter(
                 'ingredients',
                 OpenApiTypes.STR,
                 description='Comma separated list of ingredient IDs to filter',
-            )
+            ),
         ]
     )
 )
-
 class RecipeViewSet(viewsets.ModelViewSet):
     """View for manage recipe APIs."""
     serializer_class = serializers.RecipeDetailSerializer
@@ -103,14 +102,14 @@ class RecipeViewSet(viewsets.ModelViewSet):
                 'assigned_only',
                 OpenApiTypes.INT, enum=[0, 1],
                 description='Filter by items assigned to recipes.',
-            )
+            ),
         ]
     )
 )
 
-class BaseRecipeAttrViewSet(mixins.UpdateModelMixin,
+class BaseRecipeAttrViewSet(mixins.DestroyModelMixin,
+                            mixins.UpdateModelMixin,
                             mixins.ListModelMixin,
-                            mixins.DestroyModelMixin,
                             viewsets.GenericViewSet):
     """Base viewset for recipe attributes."""
     authentication_classes = [TokenAuthentication]
@@ -122,6 +121,7 @@ class BaseRecipeAttrViewSet(mixins.UpdateModelMixin,
             int(self.request.query_params.get('assigned_only', 0))
         )
         queryset = self.queryset
+
         if assigned_only:
             queryset = queryset.filter(recipe__isnull=False)
         return queryset.filter(
@@ -133,6 +133,7 @@ class TagViewSet(BaseRecipeAttrViewSet):
     """Manage tags in the database."""
     serializer_class = serializers.TagSerializer
     queryset = Tag.objects.all()
+
 
 class IngredientViewSet(BaseRecipeAttrViewSet):
     """Manage ingredients in the database."""
