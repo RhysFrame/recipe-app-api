@@ -3,6 +3,7 @@ Tests for models.
 """
 from unittest.mock import patch
 from decimal import Decimal
+from venv import create
 
 from django.test import TestCase
 from django.contrib.auth import get_user_model
@@ -56,6 +57,7 @@ class ModelTests(TestCase):
 
         self.assertTrue(user.is_superuser)
         self.assertTrue(user.is_staff)
+        self.assertTrue(user.region=='ALL')
 
     def test_create_recipe(self):
         """Test creating a recipe is successful."""
@@ -98,3 +100,15 @@ class ModelTests(TestCase):
         file_path = models.recipe_image_file_path(None, 'example.jpg')
 
         self.assertEqual(file_path, f'uploads/recipe/{uuid}.jpg')
+
+    def test_create_region(self):
+        """Test creating a region is successful."""
+        user = create_user()
+        region = models.Region.objects.create(
+            user=user,
+            title='Sample region name',
+            data_type='Harvest',
+            description='Sample region description',
+        )
+
+        self.assertEqual(str(region), region.title)

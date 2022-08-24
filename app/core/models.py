@@ -39,6 +39,7 @@ class UserManager(BaseUserManager):
         user = self.create_user(email, password)
         user.is_staff = True
         user.is_superuser = True
+        user.region = 'ALL'
         user.save(using=self._db)
 
         return user
@@ -50,6 +51,22 @@ class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    region = models.CharField(
+        max_length=5,
+        choices=[('NT', 'Northern Territory'),
+                 ('QLD', 'Queensland'),
+                 ('TAS', 'Tasmania'),
+                 ('NSW', 'New South Wales'),
+                 ('SA', 'South Australia'),
+                 ('VIC', 'Victoria'),
+                 ('WA', 'Western Australia'),
+                 ('SB', 'Solomon Islands'),
+                 ('COMM', 'Commonwealth'),
+                 ('OTHER', 'Other'),
+                 ('ALL', 'All'),
+                 ],
+        default='OTHER'
+    )
 
     objects = UserManager()
 
