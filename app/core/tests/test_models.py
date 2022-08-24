@@ -106,7 +106,7 @@ class ModelTests(TestCase):
         user = create_user()
         region = models.Region.objects.create(
             user=user,
-            title='Sample region name',
+            title='NSW',
             data_type='Harvest',
             description='Sample region description',
         )

@@ -12,6 +12,18 @@ from django.contrib.auth.models import (
     PermissionsMixin,
 )
 
+REGION_NAMES =  [('NT', 'Northern Territory'),
+                 ('QLD', 'Queensland'),
+                 ('TAS', 'Tasmania'),
+                 ('NSW', 'New South Wales'),
+                 ('SA', 'South Australia'),
+                 ('VIC', 'Victoria'),
+                 ('WA', 'Western Australia'),
+                 ('SB', 'Solomon Islands'),
+                 ('COMM', 'Commonwealth'),
+                 ('OTHER', 'Other'),
+                 ('ALL', 'All'),
+                 ]
 
 def recipe_image_file_path(instance, filename):
     """Generate file path for new recipe image."""
@@ -51,20 +63,9 @@ class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    region = models.CharField(
+    jurisdiction = models.CharField(
         max_length=5,
-        choices=[('NT', 'Northern Territory'),
-                 ('QLD', 'Queensland'),
-                 ('TAS', 'Tasmania'),
-                 ('NSW', 'New South Wales'),
-                 ('SA', 'South Australia'),
-                 ('VIC', 'Victoria'),
-                 ('WA', 'Western Australia'),
-                 ('SB', 'Solomon Islands'),
-                 ('COMM', 'Commonwealth'),
-                 ('OTHER', 'Other'),
-                 ('ALL', 'All'),
-                 ],
+        choices=REGION_NAMES,
         default='OTHER'
     )
 
@@ -114,3 +115,20 @@ class Ingredient(models.Model):
 
     def __str__(self):
         return self.name
+
+class Region(models.Model):
+    """Region for Users and Records."""
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+    title = models.CharField(
+        max_length=5,
+        choices=REGION_NAMES,
+        default='OTHER'
+    )
+    data_type = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.title
