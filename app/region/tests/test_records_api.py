@@ -84,7 +84,6 @@ class PrivateRecordsApiTests(TestCase):
 
         url = detail_url(record.id)
         res = self.client.delete(url)
-        record.refresh_from_db()
 
         self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
         records = Record.objects.filter(user=self.user)
