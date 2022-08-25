@@ -1,6 +1,9 @@
 """
 Database models.
 """
+from create_user import create_region
+
+from asyncio import create_subprocess_exec
 import uuid
 import os
 
@@ -23,7 +26,8 @@ REGION_NAMES =  [('NT', 'Northern Territory'),
                  ('COMM', 'Commonwealth'),
                  ('OTHER', 'Other'),
                  ('ALL', 'All'),
-                 ('NFK', 'Norfolk Island')
+                 ('NFK', 'Norfolk Island'),
+                 ('DEF', 'Default')
                  ]
 
 def recipe_image_file_path(instance, filename):
@@ -130,10 +134,10 @@ class Region(models.Model):
     )
     data_type = models.CharField(max_length=255)
     description = models.TextField(blank=True)
-    records = models.ManyToManyField('Record')
 
     def __str__(self):
         return self.title
+
 
 class Record(models.Model):
     """Record for database."""
@@ -141,6 +145,11 @@ class Record(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
+    )
+    region = models.ForeignKey(
+        Region,
+        on_delete=models.CASCADE,
+        default=create_region
     )
 
     def __str__(self):

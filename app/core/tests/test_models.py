@@ -118,9 +118,16 @@ class ModelTests(TestCase):
     def test_create_record(self):
         """Test creating a record is successful."""
         user = create_user()
+        region = models.Region.objects.create(
+            user=user,
+            title='NSW',
+            data_type='Harvest',
+            description='Sample region description',
+        )
         record = models.Record.objects.create(
             user=user,
-            title='Record1'
+            title='Record1',
+            region=region,
         )
 
         self.assertEqual(str(record), record.title)

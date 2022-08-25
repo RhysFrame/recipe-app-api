@@ -186,12 +186,23 @@ class PrivateRegionApiTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_404_NOT_FOUND)
         self.assertTrue(Region.objects.filter(id=region.id).exists())
 
+    def test_create_region_with_new_records(self):
+        """Test creating a region with new records."""
+        payload = {
+            'title': 'NSW',
+            'data_type': 'Harvested',
+            'records': [{'title': 'Hive'}, {'title': 'M24'}],
+        }
+        res = self.client.post(REGIONS_URL, payload, format='json')
 
-
-
-
-
-
-
-
-
+        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+        regions = Region.objects.filter(user=self.user)
+        self.assertEqual(regions.count(), 1)
+        region = regions[0]
+        self.assertEqual(region.records.count(), 2)
+        for record in payload['records']:
+            exists = region.records.filter(
+                title=record['title'],
+                user=self.user,
+            ).exists()
+            self.assertTrue(exists)
