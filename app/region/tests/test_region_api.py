@@ -1,7 +1,7 @@
 """
 Tests for region APIs.
 """
-from create_user import sample_user
+from create_user import create_user
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase
@@ -49,7 +49,7 @@ class PrivateRegionApiTests(TestCase):
 
     def setUp(self):
         self.client = APIClient()
-        self.user = sample_user()
+        self.user = create_user()
         self.client.force_authenticate(self.user)
 
     def test_retrieve_region(self):

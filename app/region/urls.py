@@ -14,6 +14,7 @@ from region import views
 
 router = DefaultRouter()
 router.register('regions', views.RegionViewSet)
+router.register('records', views.RecordViewSet)
 
 app_name = 'region'
 

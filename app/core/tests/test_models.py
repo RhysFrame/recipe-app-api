@@ -1,7 +1,7 @@
 """
 Tests for models.
 """
-from create_user import sample_user
+from create_user import create_user
 
 from unittest.mock import patch
 from decimal import Decimal
@@ -117,7 +117,7 @@ class ModelTests(TestCase):
 
     def test_create_record(self):
         """Test creating a record is successful."""
-        user = sample_user()
+        user = create_user()
         record = models.Record.objects.create(
             user=user,
             title='Record1'
