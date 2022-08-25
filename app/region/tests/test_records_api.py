@@ -17,6 +17,9 @@ from region.serializers import RecordSerializer
 
 RECORDS_URL = reverse('region:record-list')
 
+def detail_url(record_id):
+    """Create and return a record detail URL."""
+    return reverse('region:record-detail', args=[record_id])
 
 class PublicRecordsApiTests(TestCase):
     """Test unauthenticated API requests."""
@@ -62,3 +65,15 @@ class PrivateRecordsApiTests(TestCase):
         self.assertEqual(len(res.data), 1)
         self.assertEqual(res.data[0]['title'], record.title)
         self.assertEqual(res.data[0]['id'], record.id)
+
+    def test_update_record(self):
+        """Test updating an ingredient."""
+        record = Record.objects.create(user=self.user, title='Hive')
+
+        payload = {'title': 'M24'}
+        url = detail_url(record.id)
+        res = self.client.patch(url, payload)
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        record.refresh_from_db()
+        self.assertEqual(record.title, payload['title'])

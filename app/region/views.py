@@ -39,7 +39,9 @@ class RegionViewSet(viewsets.ModelViewSet):
         """Create a new recipe."""
         serializer.save(user=self.request.user)
 
-class RecordViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+class RecordViewSet(mixins.UpdateModelMixin,
+                    mixins.ListModelMixin,
+                    viewsets.GenericViewSet):
     """Manage records in the database."""
     serializer_class = serializers.RecordSerializer
     queryset = Record.objects.all()
