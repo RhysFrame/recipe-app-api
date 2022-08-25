@@ -76,6 +76,7 @@ class PrivateRecordsApiTests(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         record.refresh_from_db()
+
         self.assertEqual(record.title, payload['title'])
 
     def test_delete_record(self):
@@ -88,3 +89,5 @@ class PrivateRecordsApiTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
         records = Record.objects.filter(user=self.user)
         self.assertFalse(records.exists())
+
+        self.assertEqual(record.title, payload['title'])

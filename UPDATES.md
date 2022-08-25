@@ -5,3 +5,5 @@
 25/8/22:
     - Write tests for region API
     - Implement region serializer
+    - Implement region API
+    - 
