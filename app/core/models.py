@@ -1,8 +1,6 @@
 """
 Database models.
 """
-from create_user import create_region
-
 from asyncio import create_subprocess_exec
 import uuid
 import os
@@ -130,7 +128,7 @@ class Region(models.Model):
     title = models.CharField(
         max_length=5,
         choices=REGION_NAMES,
-        default='OTHER'
+        default=1
     )
     data_type = models.CharField(max_length=255)
     description = models.TextField(blank=True)
@@ -149,7 +147,7 @@ class Record(models.Model):
     region = models.ForeignKey(
         Region,
         on_delete=models.CASCADE,
-        default=create_region
+        default=1
     )
 
     def __str__(self):
