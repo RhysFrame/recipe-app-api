@@ -1,6 +1,8 @@
 """
 Tests for models.
 """
+from create_user import sample_user
+
 from unittest.mock import patch
 from decimal import Decimal
 from venv import create
@@ -112,3 +114,13 @@ class ModelTests(TestCase):
         )
 
         self.assertEqual(str(region), region.title)
+
+    def test_create_record(self):
+        """Test creating a record is successful."""
+        user = sample_user()
+        record = models.Record.objects.create(
+            user=user,
+            title='Record1'
+        )
+
+        self.assertEqual(str(record), record.title)
