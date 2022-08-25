@@ -23,6 +23,7 @@ REGION_NAMES =  [('NT', 'Northern Territory'),
                  ('COMM', 'Commonwealth'),
                  ('OTHER', 'Other'),
                  ('ALL', 'All'),
+                 ('NFK', 'Norfolk Island')
                  ]
 
 def recipe_image_file_path(instance, filename):
