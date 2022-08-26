@@ -1,7 +1,10 @@
 """
 Tests for models.
 """
-from create_user import create_user
+from create_user import (
+    create_user,
+    create_region,
+)
 
 from unittest.mock import patch
 from decimal import Decimal
@@ -11,12 +14,6 @@ from django.test import TestCase
 from django.contrib.auth import get_user_model
 
 from core import models
-
-
-def create_user(email='user@example.com', password='testpass123'):
-    """Create a return a new user."""
-    return get_user_model().objects.create_user(email, password)
-
 
 class ModelTests(TestCase):
     """Test models."""
@@ -118,9 +115,10 @@ class ModelTests(TestCase):
     def test_create_record(self):
         """Test creating a record is successful."""
         user = create_user()
+        region = create_region(user)
         record = models.Record.objects.create(
             user=user,
+            region=region,
             title='Record1'
         )
-
         self.assertEqual(str(record), record.title)

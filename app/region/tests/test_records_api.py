@@ -1,7 +1,10 @@
 """
 Tests for the records API.
 """
-from create_user import create_user
+from create_user import (
+    create_user,
+    create_region,
+)
 
 from django.contrib.auth import get_user_model
 from django.urls import reverse
@@ -10,7 +13,10 @@ from django.test import TestCase
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from core.models import Record
+from core.models import (
+    Record,
+    Region,
+)
 
 from region.serializers import RecordSerializer
 
@@ -88,3 +94,19 @@ class PrivateRecordsApiTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
         records = Record.objects.filter(user=self.user)
         self.assertFalse(records.exists())
+
+    def test_unique_region(self):
+        """Test that checks a record cannot have more than one region."""
+        user = create_user('user2@example.com')
+        create_region(user)
+        create_region(user, 'WA', 'Direct Entry', 'Western Australia')
+        regions = Region.objects.filter(user=user)
+        Record.objects.create(
+            user=user,
+            region=regions,
+            title='Record1'
+        )
+
+        res = self.client.get(RECORDS_URL)
+
+        self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
