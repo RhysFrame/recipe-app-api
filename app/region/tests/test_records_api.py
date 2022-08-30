@@ -101,11 +101,11 @@ class PrivateRecordsApiTests(TestCase):
         create_region(user)
         create_region(user, 'WA', 'Direct Entry', 'Western Australia')
         regions = Region.objects.filter(user=user)
-        Record.objects.create(
+        record = Record.objects.create(
             user=user,
-            region=regions,
             title='Record1'
         )
+        record.region.set(regions)
 
         res = self.client.get(RECORDS_URL)
 

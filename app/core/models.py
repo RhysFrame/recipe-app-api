@@ -132,21 +132,6 @@ class Region(models.Model):
     data_type = models.CharField(max_length=255)
     description = models.TextField(blank=True)
 
-    @classmethod
-    def get_default_pk(cls):
-        region, created = cls.objects.get_or_create(
-            title='DEF', defaults=dict(description='this is not a region')
-        )
-        return region.pk
-
-    def __str__(self):
-        return self.title
-
-
-default_region = Region.objects.create(
-    user=get_user_model().objects.create(email='defaultuser@example.com', password='testpass789')
-)
-
 class Record(models.Model):
     """Record for database."""
     title = models.CharField(max_length=255)
@@ -154,11 +139,7 @@ class Record(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
     )
-    region = models.ForeignKey(
-        Region,
-        on_delete=models.CASCADE,
-        default=Region.get_default_pk,
-    )
+    region = models.ManyToManyField(Region)
 
     def __str__(self):
         return self.title
