@@ -142,7 +142,7 @@ class Record(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
     )
-    region = models.ManyToManyField(Region)
+    region = models.ManyToManyField('Region')
 
     def __str__(self):
         return self.title

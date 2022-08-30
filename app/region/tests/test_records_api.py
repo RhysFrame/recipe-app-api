@@ -105,7 +105,7 @@ class PrivateRecordsApiTests(TestCase):
             user=user,
             title='Record1'
         )
-        record.region.set(regions)
+        # record.region.set(regions)
 
         res = self.client.get(RECORDS_URL)
 
