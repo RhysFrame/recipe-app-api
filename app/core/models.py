@@ -132,6 +132,9 @@ class Region(models.Model):
     data_type = models.CharField(max_length=255)
     description = models.TextField(blank=True)
 
+    def __str__(self):
+        return self.title
+
 class Record(models.Model):
     """Record for database."""
     title = models.CharField(max_length=255)
