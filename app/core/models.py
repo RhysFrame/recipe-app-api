@@ -97,3 +97,19 @@ class Ingredient(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Record(models.Model):
+    """Record object."""
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
+    title = models.CharField(max_length=255)
+    region = models.CharField(max_length=255)
+    type = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    link = models.CharField(max_length=255, blank=True)
+
+    def __str__(self):
+        return self.title

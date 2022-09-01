@@ -98,3 +98,16 @@ class ModelTests(TestCase):
         file_path = models.recipe_image_file_path(None, 'example.jpg')
 
         self.assertEqual(file_path, f'uploads/recipe/{uuid}.jpg')
+
+    def test_create_record(self):
+        """Test creating a record is successful."""
+        user = create_user()
+        record = models.Record.objects.create(
+            user=user,
+            title='Sample record title',
+            region='NSW',
+            type='Site',
+            description='Sample record description.',
+        )
+
+        self.assertEqual(str(record), record.title)
