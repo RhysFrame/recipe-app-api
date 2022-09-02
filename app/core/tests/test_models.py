@@ -111,3 +111,8 @@ class ModelTests(TestCase):
         )
 
         self.assertEqual(str(record), record.title)
+
+    def test_create_artefact(self):
+        """Test creating an artefact is successful."""
+
+

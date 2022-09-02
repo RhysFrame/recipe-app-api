@@ -94,3 +94,18 @@ class PrivateRecordAPITests(TestCase):
 
         serializer = RecordDetailSerializer(record)
         self.assertEqual(res.data, serializer.data)
+
+    def test_create_record(self):
+        """Test creating a record."""
+        payload = {
+            'title': 'Sample record',
+            'region': 'Sample region',
+            'type': 'Sample type',
+        }
+        res = self.client.post(RECORDS_URL, payload)
+
+        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+        record = Record.objects.get(id=res.data['id'])
+        for k, v in payload.items():
+            self.assertEqual(getattr(record, k), v)
+        self.assertEqual(record.user, self.user)

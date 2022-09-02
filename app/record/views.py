@@ -26,3 +26,7 @@ class RecordViewSet(viewsets.ModelViewSet):
             return serializers.RecordSerializer
 
         return self.serializer_class
+
+    def perform_create(self, serializer):
+        """Create a new record."""
+        serializer.save(user=self.request.user)
