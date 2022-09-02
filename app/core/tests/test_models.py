@@ -1,13 +1,17 @@
 """
 Tests for models.
 """
+from contextlib import nullcontext
 from unittest.mock import patch
 from decimal import Decimal
+from datetime import date
 
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 
 from core import models
+
+from create import create_user
 
 
 def create_user(email='user@example.com', password='testpass123'):
@@ -114,5 +118,25 @@ class ModelTests(TestCase):
 
     def test_create_artefact(self):
         """Test creating an artefact is successful."""
+        user = create_user()
+        artefact = models.Artefact.objects.create(
+            user=user,
+            title='Sample artefact title',
+            public_id=9,
+            location='NSW',
+            origin='Satara',
+            type='Bronze',
+            material='Metal',
+            manufacturer='Unknown',
+            manufacture_year='1901',
+            markings='Sample marking description.',
+            classification='Ships Furniture and Fittings',
+            provenance='Donation',
+            notes='Sample notes.',
+            length=Decimal('30'),
+            height=Decimal('24'),
+            width=Decimal('7.5'),
+            weight=Decimal('5000'),
+        )
 
-
+        self.assertEqual(str(artefact), artefact.title)

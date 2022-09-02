@@ -113,3 +113,32 @@ class Record(models.Model):
 
     def __str__(self):
         return self.title
+
+class Artefact(models.Model):
+    """Artefact object."""
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+    title = models.CharField(max_length=255)
+    public_id = models.IntegerField()
+    location = models.CharField(max_length=255)
+    origin = models.CharField(max_length=255)
+    type = models.CharField(max_length=255)
+    material = models.CharField(max_length=255)
+    manufacturer = models.CharField(max_length=255)
+    manufacture_year = models.CharField(max_length=255)
+    markings = models.TextField(blank=True)
+    classification = models.CharField(max_length=255)
+    provenance = models.CharField(max_length=255)
+    notes = models.TextField(blank=True)
+    length = models.DecimalField(max_digits=10, decimal_places=3, null=True)
+    height = models.DecimalField(max_digits=10, decimal_places=3, null=True)
+    width = models.DecimalField(max_digits=10, decimal_places=3, null=True)
+    diameter = models.DecimalField(max_digits=10, decimal_places=3, null=True)
+    volume = models.DecimalField(max_digits=10, decimal_places=3, null=True)
+    weight = models.DecimalField(max_digits=10, decimal_places=3, null=True)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.title

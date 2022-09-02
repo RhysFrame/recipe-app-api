@@ -1,5 +1,5 @@
 """
-URL mappings for the record app.
+URL mappings for the artefact app.
 """
 from django.urls import (
     path,
@@ -7,12 +7,12 @@ from django.urls import (
 )
 from rest_framework.routers import DefaultRouter
 
-from record import views
+from artefact import views
 
 router = DefaultRouter()
-router.register('records', views.RecordViewSet)
+router.register('artefacts', views.ArtefactViewSet)
 
-app_name = 'record'
+app_name = 'artefact'
 
 urlpatterns = [
     path('', include(router.urls)),

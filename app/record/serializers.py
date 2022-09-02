@@ -5,7 +5,6 @@ from rest_framework import serializers
 
 from core.models import Record
 
-
 class RecordSerializer(serializers.ModelSerializer):
     """Serializer for records."""
 
