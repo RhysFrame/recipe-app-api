@@ -12,6 +12,12 @@ from django.contrib.auth.models import (
     PermissionsMixin,
 )
 
+def artefact_image_file_path(instance, filename):
+    """Generate file path for new artefact image."""
+    ext = os.path.splitext(filename)[1]
+    filename = f'{uuid.uuid4()}{ext}'
+
+    return os.path.join('uploads', 'recipe', filename)
 
 def recipe_image_file_path(instance, filename):
     """Generate file path for new recipe image."""
@@ -139,6 +145,7 @@ class Artefact(models.Model):
     volume = models.DecimalField(max_digits=10, decimal_places=3, null=True)
     weight = models.DecimalField(max_digits=10, decimal_places=3, null=True)
     description = models.TextField(blank=True)
+    image = models.ImageField(null=True, upload_to=recipe_image_file_path)
 
     def __str__(self):
         return self.title
