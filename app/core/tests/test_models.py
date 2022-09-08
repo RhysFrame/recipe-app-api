@@ -149,3 +149,38 @@ class ModelTests(TestCase):
         file_path = models.artefact_image_file_path(None, 'example.jpg')
 
         self.assertEqual(file_path, f'uploads/recipe/{uuid}.jpg')
+
+    def test_create_shipwreck(self):
+        """Test creating a shipwreck record is successful."""
+        user = create_user()
+        shipwreck = models.Shipwreck.objects.create(
+            user=user,
+            title=' Satara',
+            public_id=2356,
+            location='NSW',
+            vessel_type='Screw Steamer',
+            rig_type='Sample rig type',
+            year_wrecked='1910',
+            region='Hunter',
+            weight=Decimal('5272.0'),
+            gen_history='Sample general history'
+        )
+
+        self.assertEqual(str(shipwreck), shipwreck.title)
+
+    def test_create_aircraft(self):
+        """Test creating an aircraft record is successful."""
+        user = create_user()
+        aircraft = models.Aircraft.objects.create(
+            user=user,
+            title='Sample aircraft title',
+            public_id=3416,
+            location='NSW',
+            vessel_type='Sample aircraft type',
+            year_wrecked='1910',
+            region='Hunter',
+            weight=Decimal('1272.0'),
+            gen_history='Sample general history'
+        )
+
+        self.assertEqual(str(aircraft), aircraft.title)

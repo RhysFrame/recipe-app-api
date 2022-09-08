@@ -149,3 +149,41 @@ class Artefact(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Shipwreck(models.Model):
+    """Shipwreck object."""
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+    title = models.CharField(max_length=255)
+    public_id = models.IntegerField()
+    location = models.CharField(max_length=255)
+    vessel_type = models.CharField(max_length=255)
+    rig_type = models.CharField(max_length=255)
+    year_wrecked = models.CharField(max_length=255)
+    region = models.CharField(max_length=255)
+    weight = models.DecimalField(max_digits=10, decimal_places=3, null=True)
+    gen_history = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.title
+
+class Aircraft(models.Model):
+    """Aircraft object."""
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+    title = models.CharField(max_length=255)
+    public_id = models.IntegerField()
+    location = models.CharField(max_length=255)
+    vessel_type = models.CharField(max_length=255)
+    year_wrecked = models.CharField(max_length=255)
+    region = models.CharField(max_length=255)
+    weight = models.DecimalField(max_digits=10, decimal_places=3, null=True)
+    gen_history = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.title

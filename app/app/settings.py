@@ -53,7 +53,8 @@ INSTALLED_APPS = [
     'core',
     'user',
     'recipe',
-    'record',
+    'artefact',
+    'shipwreck',
 ]
 
 MIDDLEWARE = [

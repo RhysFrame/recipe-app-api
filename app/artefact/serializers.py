@@ -21,4 +21,13 @@ class ArtefactDetailSerializer(ArtefactSerializer):
    """Serializer for artefact detail view."""
 
    class Meta(ArtefactSerializer.Meta):
-       fields = ArtefactSerializer.Meta.fields + ['description']
+       fields = ArtefactSerializer.Meta.fields + ['description', 'image']
+
+class ArtefactImageSerializer(serializers.ModelSerializer):
+    """Serializer for uploading images to recipes."""
+
+    class Meta:
+        model = Artefact
+        fields = ['id', 'image']
+        read_only_fields = ['id']
+        extra_kwargs = {'image': {'required': 'True'}}
